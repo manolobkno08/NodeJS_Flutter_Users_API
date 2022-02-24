@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String url = 'http://172.26.114.250:4000/api/users';
+  String url = 'http://192.168.251.14:4000/api/users';
   Map data = {};
   List usersData = [];
   getUsers() async {
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   remove(url) async {
-    await http.get(url + '/remove');
+    await http.delete(url + '/delete');
   }
 
   @override
@@ -102,6 +102,7 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         floatingActionButton: Row(children: <Widget>[
           const SizedBox(
             height: 20,
@@ -109,6 +110,8 @@ class _HomePageState extends State<HomePage> {
           ),
           FloatingActionButton(
             onPressed: _aggUsers,
+            elevation: 20.0,
+            backgroundColor: Colors.greenAccent[400],
             child: Icon(Icons.add),
           ),
           const SizedBox(
@@ -117,6 +120,8 @@ class _HomePageState extends State<HomePage> {
           ),
           FloatingActionButton(
             onPressed: _refresh,
+            elevation: 20.0,
+            backgroundColor: Colors.deepPurple[50],
             child: Icon(Icons.refresh_rounded),
           ),
           const SizedBox(
@@ -125,6 +130,8 @@ class _HomePageState extends State<HomePage> {
           ),
           FloatingActionButton(
             onPressed: _delet,
+            elevation: 20.0,
+            backgroundColor: Colors.red[600],
             child: Icon(Icons.delete),
           ),
         ]));
