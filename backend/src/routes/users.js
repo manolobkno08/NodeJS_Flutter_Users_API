@@ -11,23 +11,23 @@ const { faker } = require('@faker-js/faker');
 router.get('/api/users', async (req, res) => {
 	// Return all users contained on database
 	const users = await User.find();
-	handleObject(users);
+	// handleObject(users);
 	res.json({ users: users });
 });
 
-const handleObject = (users) => {
-	// Through object
-	//console.log(users);
-	// for (item in users) {
-	// 	console.log(users[item].firstName);
-	// }
-	// for (item of users) {
-	// 	console.log(item.firstName);
-	// }
-	users.forEach(element => {
-		console.log(element.firstName);
-	});
-}
+// const handleObject = (users) => {
+// 	// Through object
+// 	//console.log(users);
+// 	// for (item in users) {
+// 	// 	console.log(users[item].firstName);
+// 	// }
+// 	// for (item of users) {
+// 	// 	console.log(item.firstName);
+// 	// }
+// 	users.forEach(element => {
+// 		console.log(element.firstName);
+// 	});
+// }
 
 // Define route that allow create new users
 router.get('/api/users/create', async (req, res) => {
