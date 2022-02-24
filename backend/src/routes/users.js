@@ -7,9 +7,8 @@ const User = require('../models/User')
 // Import faker module that allow create mock data
 const { faker } = require('@faker-js/faker');
 
-// Define root route
+// GET Users
 router.get('/api/users', async (req, res) => {
-	// Return all users contained on database
 	const users = await User.find();
 	// handleObject(users);
 	res.json({ users: users });
@@ -29,7 +28,7 @@ router.get('/api/users', async (req, res) => {
 // 	});
 // }
 
-// Define route that allow create new users
+// Create new users
 router.get('/api/users/create', async (req, res) => {
 	for (let i = 0; i < 5; i++) {
 		await User.create({
@@ -39,6 +38,16 @@ router.get('/api/users/create', async (req, res) => {
 		});
 	}
 	res.json({ message: '5 Users was created' });
+});
+
+// Delete Users
+router.delete('/api/users/delete', async (req, res) => {
+	try {
+		await User.deleteMany();
+		res.json({ message: 'Users were deleted successfully' });
+	} catch (error) {
+		console.log(error);
+	}
 });
 
 // Export object
