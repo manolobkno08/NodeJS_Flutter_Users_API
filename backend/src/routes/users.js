@@ -29,15 +29,17 @@ router.get('/api/users', async (req, res) => {
 // }
 
 // Create new users
-router.get('/api/users/create', async (req, res) => {
-	for (let i = 0; i < 5; i++) {
+router.get('/api/users/create/:count', async (req, res) => {
+	c = Number(req.params.count);
+	console.log(c);
+	for (let i = 0; i < c; i++) {
 		await User.create({
 			firstName: faker.name.firstName(),
 			lastName: faker.name.lastName(),
 			avatar: faker.image.avatar()
 		});
 	}
-	res.json({ message: '5 Users was created' });
+	res.json({ message: `${c} Users was created` });
 });
 
 // Delete Users
