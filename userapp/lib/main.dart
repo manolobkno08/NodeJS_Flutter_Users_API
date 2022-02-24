@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   String url = 'http://192.168.251.14:4000/api/users';
   Map data = {};
   List usersData = [];
+  int countUser = 0;
   getUsers() async {
     http.Response response = await http.get(url);
     data = json.decode(response.body);
@@ -26,12 +27,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  addUser(url) async {
-    await http.get(url + '/create');
+  addUser(url, count) async {
+    if (count != 0 && count > 0) {
+      await http.get(url + '/create/$count');
+      setState(() {
+        countUser = 0;
+      });
+    } else {
+      print('No se puso ningun numero');
+    }
   }
 
-  remove(url) async {
+  remove(url, count) async {
     await http.delete(url + '/delete');
+    setState(() {
+      countUser = 0;
+    });
   }
 
   @override
@@ -40,21 +51,19 @@ class _HomePageState extends State<HomePage> {
     getUsers();
   }
 
-  void _aggUsers() {
+  void _addUsers() {
     setState(() {
-      addUser(url);
+      addUser(url, countUser);
     });
   }
 
   void _refresh() {
-    setState(() {
-      getUsers();
-    });
+    getUsers();
   }
 
   void _delet() {
     setState(() {
-      remove(url);
+      remove(url, countUser);
     });
   }
 
@@ -109,7 +118,12 @@ class _HomePageState extends State<HomePage> {
             width: 214,
           ),
           FloatingActionButton(
-            onPressed: _aggUsers,
+            onPressed: () async {
+              _addUsers();
+              Future.delayed(const Duration(milliseconds: 200), () {
+                _refresh();
+              });
+            },
             elevation: 20.0,
             backgroundColor: Colors.greenAccent[400],
             child: Icon(Icons.add),
@@ -119,20 +133,32 @@ class _HomePageState extends State<HomePage> {
             width: 5,
           ),
           FloatingActionButton(
-            onPressed: _refresh,
+            onPressed: () async {
+              _delet();
+              Future.delayed(const Duration(milliseconds: 200), () {
+                _refresh();
+              });
+            },
             elevation: 20.0,
-            backgroundColor: Colors.deepPurple[50],
-            child: Icon(Icons.refresh_rounded),
+            backgroundColor: Colors.red[600],
+            child: Icon(Icons.delete),
           ),
           const SizedBox(
             height: 20,
             width: 5,
           ),
           FloatingActionButton(
-            onPressed: _delet,
+            onPressed: () {
+              setState(() {
+                countUser++;
+              });
+            },
             elevation: 20.0,
-            backgroundColor: Colors.red[600],
-            child: Icon(Icons.delete),
+            backgroundColor: Colors.deepPurple[50],
+            child: Text(
+              '$countUser',
+              style: TextStyle(fontSize: 20, color: Colors.black87),
+            ),
           ),
         ]));
   }
